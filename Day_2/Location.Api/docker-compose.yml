@@ -1,0 +1,17 @@
+services:
+  locationapi:
+    build: .
+    ports:
+      - "8888:80"
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+        - 5672:5672
+        - 15672:15672
+  mailserver:
+    image: maildev/maildev:1.1.0
+    container_name: mailserver
+    ports:
+      - "25:25"
+      - "4000:80"
