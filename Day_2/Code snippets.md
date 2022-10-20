@@ -41,9 +41,16 @@ public class EventEntity
 }
 
 public void Configure(EntityTypeBuilder<EventEntity> builder)
-    {
-        builder.HasKey(x => x.Id);
-    }
+{
+    builder.HasKey(x => x.Id);
+}
+
+private DomainEvent DeserializeEvent(EventEntity eventEntity)
+{
+    var eventType = Type.GetType($"DDD.TicketSales.Location.Domain.DomainEvents.{eventEntity.MessageType}, DDD.TicketSales");
+    var domainEventObject = JsonSerializer.Deserialize(eventEntity.EventData, eventType);
+    return domainEventObject as DomainEvent;
+}
 ```
 
 ## Messaging
